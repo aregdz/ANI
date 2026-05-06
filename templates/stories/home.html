@@ -14,7 +14,36 @@
 </section>
 
 <div id="map" aria-label="Интерактивная карта мира с народными историями"></div>
+<section class="panel stories-list-panel">
+  <h2>Народные истории</h2>
 
+  <div class="stories-list">
+    {% for story in stories %}
+      <article class="story-list-card">
+        {% if story.photo %}
+          <img src="{{ story.photo.url }}" alt="Фото истории">
+        {% endif %}
+
+        <div>
+          <h3>{{ story.fio }}</h3>
+          <p class="story-meta">
+            {{ story.story_date }} · {{ story.latitude }}, {{ story.longitude }}
+          </p>
+
+          <p>
+            {{ story.text|truncatechars:220 }}
+          </p>
+
+          <a class="btn primary" href="{% url 'story_detail' story.id %}">
+            Читать историю
+          </a>
+        </div>
+      </article>
+    {% empty %}
+      <p class="hint">Историй по выбранным фильтрам пока нет.</p>
+    {% endfor %}
+  </div>
+</section>
 <!-- <section class="bottom-actions">
 {% if user.is_authenticated %}
   <a class="btn" href="{% url 'my_stories' %}">Мои истории</a>

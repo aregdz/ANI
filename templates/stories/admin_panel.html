@@ -7,6 +7,48 @@
 <h2>Все истории</h2>
 <div class="table-wrap"><table><tr><th>ФИО</th><th>Дата</th><th>Статус</th><th>Автор</th><th>Действия</th></tr>{% for story in all_stories %}<tr><td>{{ story.fio }}</td><td>{{ story.story_date }}</td><td>{{ story.get_status_display }}</td><td>{{ story.author.phone }}</td><td><a href="{% url 'admin_story_edit' story.id %}">Редактировать</a> · <a class="danger" href="{% url 'admin_story_delete' story.id %}">Удалить</a></td></tr>{% endfor %}</table></div>
 <h2>Пользователи</h2>
-<div class="table-wrap"><table><tr><th>Телефон</th><th>Роль</th><th>Действия</th></tr>{% for item in users %}<tr><td>{{ item.phone }}</td><td>{% if item.is_admin_owner %}Админ{% else %}Пользователь{% endif %}</td><td>{% if not item.is_admin_owner %}<a class="danger" href="{% url 'admin_user_delete' item.id %}">Удалить</a>{% else %}Нельзя удалить{% endif %}</td></tr>{% endfor %}</table></div>
+
+<div class="table-wrap">
+  <table>
+    <tr>
+      <th>Email</th>
+      <th>Email подтверждён</th>
+      <th>Роль</th>
+      <th>Действия</th>
+    </tr>
+
+    {% for item in users %}
+      <tr>
+        <td>{{ item.email }}</td>
+
+        <td>
+          {% if item.email_verified %}
+            Да
+          {% else %}
+            Нет
+          {% endif %}
+        </td>
+
+        <td>
+          {% if item.is_admin_owner %}
+            Админ
+          {% else %}
+            Пользователь
+          {% endif %}
+        </td>
+
+        <td>
+          {% if not item.is_admin_owner %}
+            <a class="danger" href="{% url 'admin_user_delete' item.id %}">
+              Удалить
+            </a>
+          {% else %}
+            Нельзя удалить
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
 </section>
 {% endblock %}
