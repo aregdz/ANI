@@ -1,0 +1,94 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>А.Н.И — Альбом народных историй</title>
+
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=8d8e6281-716e-4804-9d7d-c530158d7292&lang=ru_RU"></script>
+  <link rel="stylesheet" href="{% static 'stories/css/style.css' %}">
+</head>
+
+<body>
+<div class="ani-bg">
+  <div class="church-silhouette"></div>
+  <div class="ani-bg-overlay"></div>
+</div>
+
+<header class="topbar">
+  <a class="brand" href="{% url 'home' %}">
+    <img src="{% static 'stories/logo.png' %}" alt="АНИ">
+
+    <div class="brand-text">
+      <strong>А.Н.И</strong>
+      <span>Альбом народных историй</span>
+    </div>
+  </a>
+
+  <nav class="topnav">
+    <a href="{% url 'home' %}">Карта</a>
+
+    {% if user.is_authenticated %}
+      <a href="{% url 'my_stories' %}">Мои истории</a>
+      <a class="primary-link" href="{% url 'story_create' %}">Добавить историю</a>
+
+      {% if user.is_admin_owner %}
+        <a href="{% url 'admin_panel' %}">Админ</a>
+      {% endif %}
+
+      <a href="{% url 'logout' %}">Выйти</a>
+    {% else %}
+      <a href="{% url 'login' %}">Вход</a>
+      <a class="primary-link" href="{% url 'register' %}">Регистрация</a>
+    {% endif %}
+  </nav>
+</header>
+
+<section class="heritage-quote">
+  <div>
+    <strong>«Пока жива память — жив народ»</strong>
+    <p>
+      А.Н.И сохраняет семейные истории, голоса, фотографии и свидетельства,
+      чтобы прошлое не исчезло, а стало частью будущего.
+    </p>
+  </div>
+</section>
+
+{% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <div class="msg {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="footer-content">
+
+    <div class="footer-brand">
+      <strong>А.Н.И</strong>
+      <span>Альбом народных историй</span>
+    </div>
+
+    <div class="footer-links">
+      <a href="https://t.me/areg19areg" target="_blank">Telegram: @areg19areg</a>
+      <a href="tel:+79288295981">8 (928) 829-59-81</a>
+      <a href="mailto:areg.dzharayan@bk.ru">areg.dzharayan@bk.ru</a>
+    </div>
+
+    <div class="footer-copy">
+      © {% now "Y" %} А.Н.И — Альбом народных историй<br>
+      Пока жива память — жив народ
+    </div>
+
+  </div>
+</footer>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

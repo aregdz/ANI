@@ -1,0 +1,8 @@
+{% extends 'stories/base.html' %}
+{% block content %}
+<section class="panel">
+  <h1>{{ title }}</h1>
+  <p class="hint">Координаты можно взять с карты: широта и долгота точки, где произошла история.</p>
+  <form method="post" enctype="multipart/form-data" class="form grid-form">{% csrf_token %}{{ form.as_p }}<button class="btn primary" type="submit">Сохранить</button></form>
+</section>
+{% endblock %}

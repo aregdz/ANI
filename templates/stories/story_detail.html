@@ -1,0 +1,11 @@
+{% extends 'stories/base.html' %}
+{% block content %}
+<section class="panel story-detail">
+  <h1>{{ story.fio }}</h1>
+  <p class="hint">{{ story.story_date }} · координаты: {{ story.latitude }}, {{ story.longitude }} · {{ story.get_status_display }}</p>
+  {% if story.photo %}<img class="media" src="{{ story.photo.url }}" alt="Фото истории">{% endif %}
+  {% if story.video %}<video class="media" controls src="{{ story.video.url }}"></video>{% endif %}
+  {% if story.audio %}<audio controls src="{{ story.audio.url }}"></audio>{% endif %}
+  <p class="story-text">{{ story.text|linebreaks }}</p>
+</section>
+{% endblock %}
