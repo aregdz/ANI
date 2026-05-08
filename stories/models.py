@@ -66,10 +66,6 @@ class Story(models.Model):
     longitude = models.DecimalField('Долгота', max_digits=9, decimal_places=6)
     text = models.TextField('Текст истории')
 
-    photo = models.ImageField('Фото', upload_to='stories/photos/', blank=True, null=True)
-    video = models.FileField('Видео', upload_to='stories/videos/', blank=True, null=True)
-    audio = models.FileField('Аудио', upload_to='stories/audio/', blank=True, null=True)
-
     status = models.CharField(
         'Статус',
         max_length=16,
@@ -87,3 +83,78 @@ class Story(models.Model):
 
     def __str__(self):
         return f'{self.fio} — {self.story_date}'
+
+
+class StoryMedia(models.Model):
+    MEDIA_PHOTO = 'photo'
+    MEDIA_VIDEO = 'video'
+    MEDIA_AUDIO = 'audio'
+
+    MEDIA_CHOICES = [
+        (MEDIA_PHOTO, 'Фото'),
+        (MEDIA_VIDEO, 'Видео'),
+        (MEDIA_AUDIO, 'Аудио'),
+    ]
+
+    story = models.ForeignKey(
+        Story,
+        on_delete=models.CASCADE,
+        related_name='media_files',
+        verbose_name='История'
+    )
+
+    media_type = models.CharField(
+        'Тип файла',
+        max_length=10,
+        choices=MEDIA_CHOICES
+    )
+
+    file = models.FileField(
+        'Файл',
+        upload_to='stories/media/'
+    )
+
+    uploaded_at = models.DateTimeField(
+        'Загружено',
+        auto_now_add=True
+    )
+
+    class Meta:
+        ordering = ['uploaded_at']
+        verbose_name = 'Файл истории'
+        verbose_name_plural = 'Файлы истории'
+
+    def __str__(self):
+        return f'{self.get_media_type_display()} для {self.story}'
+
+
+class Review(models.Model):
+    story = models.ForeignKey(
+        Story,
+        on_delete=models.CASCADE,
+        related_name='reviews'
+    )
+
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='sent_reviews'
+    )
+
+    recipient = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='received_reviews'
+    )
+
+    text = models.TextField('Текст отзыва')
+
+    rating = models.PositiveSmallIntegerField(
+        'Оценка',
+        default=5
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']

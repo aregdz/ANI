@@ -1,0 +1,1 @@
+web: gunicorn ani_album.wsgi:application

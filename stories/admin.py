@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Story
+from .models import User, Story, Review
 
 
 @admin.register(User)
@@ -42,3 +42,9 @@ class StoryAdmin(admin.ModelAdmin):
     @admin.action(description='Опубликовать выбранные истории')
     def publish_selected(self, request, queryset):
         queryset.update(status=Story.STATUS_PUBLISHED)
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('story', 'sender', 'recipient', 'created_at')
+    search_fields = ('text', 'sender__email', 'recipient__email', 'story__fio')
+    list_filter = ('created_at',)

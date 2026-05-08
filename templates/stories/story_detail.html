@@ -1,11 +1,90 @@
 {% extends 'stories/base.html' %}
+
 {% block content %}
 <section class="panel story-detail">
   <h1>{{ story.fio }}</h1>
-  <p class="hint">{{ story.story_date }} · координаты: {{ story.latitude }}, {{ story.longitude }} · {{ story.get_status_display }}</p>
-  {% if story.photo %}<img class="media" src="{{ story.photo.url }}" alt="Фото истории">{% endif %}
-  {% if story.video %}<video class="media" controls src="{{ story.video.url }}"></video>{% endif %}
-  {% if story.audio %}<audio controls src="{{ story.audio.url }}"></audio>{% endif %}
-  <p class="story-text">{{ story.text|linebreaks }}</p>
+
+  <p class="hint">
+    {{ story.story_date }} · координаты: {{ story.latitude }}, {{ story.longitude }} · {{ story.get_status_display }}
+  </p>
+
+  {% for media in story.media_files.all %}
+  {% if media.media_type == 'photo' %}
+    <img class="media" src="{{ media.file.url }}" alt="Фото истории">
+  {% elif media.media_type == 'video' %}
+    <video class="media" controls src="{{ media.file.url }}"></video>
+  {% elif media.media_type == 'audio' %}
+    <audio controls src="{{ media.file.url }}"></audio>
+  {% endif %}
+{% endfor %}
+
+  <div class="story-text">
+    {{ story.text|linebreaks }}
+  </div>
+</section>
+
+<section class="panel story-reviews">
+  <div class="reviews-title">
+    <h2>Отзывы</h2>
+    <span>{{ reviews|length }}</span>
+  </div>
+
+  {% if user.is_authenticated %}
+    <form method="post" class="review-form">
+      {% csrf_token %}
+
+      <div class="rating-select">
+        <label>Оценка:</label>
+        {{ review_form.rating }}
+      </div>
+
+      {{ review_form.text }}
+
+      <button class="btn primary" type="submit">
+        Оставить отзыв
+      </button>
+    </form>
+  {% else %}
+    <p class="hint">
+      Чтобы оставить отзыв, нужно
+      <a href="{% url 'login' %}">войти</a>.
+    </p>
+  {% endif %}
+
+  <div class="reviews-grid">
+    {% for review in reviews %}
+      <article class="review-card">
+        <div class="review-avatar">
+          {{ review.sender.email|first|upper }}
+        </div>
+
+        <strong class="review-author">
+          {{ review.sender.email }}
+        </strong>
+
+        <div class="review-stars">
+          {% for i in "12345" %}
+            {% if forloop.counter <= review.rating %}
+              ★
+            {% else %}
+              ☆
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <p class="review-text">
+          {{ review.text|linebreaksbr }}
+        </p>
+
+        <span class="review-date">
+          {{ review.created_at|date:"d.m.Y H:i" }}
+        </span>
+      </article>
+    {% empty %}
+      <p class="hint">
+        Отзывов пока нет. Будьте первым.
+      </p>
+    {% endfor %}
+  </div>
 </section>
 {% endblock %}

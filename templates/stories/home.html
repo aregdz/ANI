@@ -20,9 +20,11 @@
   <div class="stories-list">
     {% for story in stories %}
       <article class="story-list-card">
-        {% if story.photo %}
-          <img src="{{ story.photo.url }}" alt="Фото истории">
-        {% endif %}
+        {% with story.media_files.first as media %}
+  {% if media and media.media_type == 'photo' %}
+    <img src="{{ media.file.url }}" alt="Фото истории">
+  {% endif %}
+{% endwith %}
 
         <div>
           <h3>{{ story.fio }}</h3>

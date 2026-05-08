@@ -57,4 +57,7 @@ urlpatterns = [
     path('admin-panel/stories/<int:pk>/publish/', views.admin_story_publish, name='admin_story_publish'),
     path('admin-panel/stories/<int:pk>/delete/', views.admin_story_delete, name='admin_story_delete'),
     path('admin-panel/users/<int:pk>/delete/', views.admin_user_delete, name='admin_user_delete'),
+    path('admin-panel/users/<int:pk>/stories/', views.admin_user_stories, name='admin_user_stories'),
+path('admin-panel/stories/<int:pk>/reviews/', views.admin_story_reviews, name='admin_story_reviews'),
+path('admin-panel/reviews/<int:pk>/delete/', views.admin_review_delete, name='admin_review_delete'),
 ]

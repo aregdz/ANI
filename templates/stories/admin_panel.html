@@ -3,9 +3,17 @@
 <section class="panel">
 <h1>Админ-панель</h1>
 <h2>Истории на подтверждение</h2>
-<div class="table-wrap"><table><tr><th>ФИО</th><th>Дата</th><th>Автор</th><th>Действия</th></tr>{% for story in pending_stories %}<tr><td>{{ story.fio }}</td><td>{{ story.story_date }}</td><td>{{ story.author.phone }}</td><td><a href="{% url 'story_detail' story.id %}">Открыть</a> · <a href="{% url 'admin_story_publish' story.id %}">Опубликовать</a> · <a href="{% url 'admin_story_edit' story.id %}">Редактировать</a> · <a class="danger" href="{% url 'admin_story_delete' story.id %}">Удалить</a></td></tr>{% empty %}<tr><td colspan="4">Нет историй на подтверждение</td></tr>{% endfor %}</table></div>
+<div class="table-wrap"><table><tr><th>ФИО</th><th>Дата</th><th>Автор</th><th>Действия</th></tr>{% for story in pending_stories %}<tr><td>
+  <a href="{% url 'admin_story_reviews' story.id %}">
+    {{ story.fio }}
+  </a>
+</td><td>{{ story.story_date }}</td><td> <a href="{% url 'admin_user_stories' story.author.id %}">
+    {{ story.author.email }}
+  </a></td><td><a href="{% url 'story_detail' story.id %}">Открыть</a> · <a href="{% url 'admin_story_publish' story.id %}">Опубликовать</a> · <a href="{% url 'admin_story_edit' story.id %}">Редактировать</a> · <a class="danger" href="{% url 'admin_story_delete' story.id %}">Удалить</a></td></tr>{% empty %}<tr><td colspan="4">Нет историй на подтверждение</td></tr>{% endfor %}</table></div>
 <h2>Все истории</h2>
-<div class="table-wrap"><table><tr><th>ФИО</th><th>Дата</th><th>Статус</th><th>Автор</th><th>Действия</th></tr>{% for story in all_stories %}<tr><td>{{ story.fio }}</td><td>{{ story.story_date }}</td><td>{{ story.get_status_display }}</td><td>{{ story.author.phone }}</td><td><a href="{% url 'admin_story_edit' story.id %}">Редактировать</a> · <a class="danger" href="{% url 'admin_story_delete' story.id %}">Удалить</a></td></tr>{% endfor %}</table></div>
+<div class="table-wrap"><table><tr><th>ФИО</th><th>Дата</th><th>Статус</th><th>Автор</th><th>Действия</th></tr>{% for story in all_stories %}<tr><td>{{ story.fio }}</td><td>{{ story.story_date }}</td><td>{{ story.get_status_display }}</td><td><a href="{% url 'admin_user_stories' story.author.id %}">
+    {{ story.author.email }}
+  </a></td><td><a href="{% url 'admin_story_edit' story.id %}">Редактировать</a> · <a class="danger" href="{% url 'admin_story_delete' story.id %}">Удалить</a></td></tr>{% endfor %}</table></div>
 <h2>Пользователи</h2>
 
 <div class="table-wrap">
@@ -19,7 +27,11 @@
 
     {% for item in users %}
       <tr>
-        <td>{{ item.email }}</td>
+        <td>
+  <a href="{% url 'admin_user_stories' item.id %}">
+    {{ item.email }}
+  </a>
+</td>
 
         <td>
           {% if item.email_verified %}
