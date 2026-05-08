@@ -8,10 +8,13 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     '.onrender.com',
+    '.railway.app',
+    'ani-production-d3bd.up.railway.app',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
+    'https://*.railway.app',
 ]
 
 INSTALLED_APPS = [
