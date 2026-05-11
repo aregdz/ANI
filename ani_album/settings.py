@@ -10,11 +10,16 @@ ALLOWED_HOSTS = [
     '.onrender.com',
     '.railway.app',
     'ani-production-d3bd.up.railway.app',
+    '*',
+    ".ngrok-free.app",
+    ".ngrok-free.dev"
 ]
+
 
 CSRF_TRUSTED_ORIGINS = [
     'https://ani-production-d3bd.up.railway.app',
     'http://127.0.0.1:8000',
+     "https://carded-surviving-backrest.ngrok-free.dev",
 ]
 
 INSTALLED_APPS = [
@@ -91,16 +96,24 @@ LOGOUT_REDIRECT_URL = 'home'
 
 ADMIN_PHONE = os.getenv('ANI_ADMIN_PHONE', '+79990000000')
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 465
 
-EMAIL_USE_SSL = True
-EMAIL_USE_TLS = False
+# EMAIL_USE_SSL = True
+# EMAIL_USE_TLS = False
 
-EMAIL_HOST_USER = 'ani.memory.project@gmail.com'
-EMAIL_HOST_PASSWORD = 'fqqwfuvuxrftuyvv'
+# EMAIL_HOST_USER = 'ani.memory.project@gmail.com'
+# EMAIL_HOST_PASSWORD = 'fqqwfuvuxrftuyvv'
 
-DEFAULT_FROM_EMAIL = 'АНИ <ani.memory.project@gmail.com>'
-SERVER_EMAIL = EMAIL_HOST_USER
+# DEFAULT_FROM_EMAIL = 'АНИ <ani.memory.project@gmail.com>'
+# SERVER_EMAIL = EMAIL_HOST_USER
+import os
+
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+
+SENDGRID_API_KEY = "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"
+
+DEFAULT_FROM_EMAIL = "ANI <ani.memory.project@gmail.com>"
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
