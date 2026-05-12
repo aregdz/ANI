@@ -109,11 +109,36 @@ ADMIN_PHONE = os.getenv('ANI_ADMIN_PHONE', '+79990000000')
 
 # DEFAULT_FROM_EMAIL = 'АНИ <ani.memory.project@gmail.com>'
 # SERVER_EMAIL = EMAIL_HOST_USER
-import os
 
-EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 
-SENDGRID_API_KEY = "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"
 
-DEFAULT_FROM_EMAIL = "ANI <ani.memory.project@gmail.com>"
-SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+EMAIL_HOST_USER = 'ani.memory.project@gmail.com'
+EMAIL_HOST_PASSWORD = 'fqqwfuvuxrftuyvv'
+
+DEFAULT_FROM_EMAIL = 'АНИ <ani.memory.project@gmail.com>'
+SERVER_EMAIL = EMAIL_HOST_USER
+
+
+
+
+
+# import os
+
+# EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+
+# SENDGRID_API_KEY = "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"
+
+# DEFAULT_FROM_EMAIL = "ANI <ani.memory.project@gmail.com>"
+# SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
