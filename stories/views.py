@@ -63,6 +63,7 @@ def home(request):
     })
 
 
+
 def register_view(request):
     if request.method == 'POST':
         form = EmailRegisterForm(request.POST)
@@ -90,7 +91,7 @@ def register_view(request):
         'form': form,
         'title': 'Регистрация',
         'hint': 'Введите email и пароль. После регистрации подтвердите email по ссылке из письма.'
-    })
+    })   
 
 
 def login_view(request):
@@ -98,12 +99,18 @@ def login_view(request):
         form = EmailLoginForm(request.POST)
 
         if form.is_valid():
-            login(
-                request,
-                form.cleaned_data['user']
-            )
+            user = form.cleaned_data['user']
 
-            if form.cleaned_data['user'].is_admin_owner:
+            if not user.email_verified and not user.is_admin_owner:
+                messages.error(
+                    request,
+                    'Подтвердите email по ссылке из письма, чтобы войти.'
+                )
+                return redirect('login')
+
+            login(request, user)
+
+            if user.is_admin_owner:
                 return redirect('admin_panel')
 
             return redirect('my_stories')
@@ -112,11 +119,11 @@ def login_view(request):
         form = EmailLoginForm()
 
     return render(request, 'stories/auth.html', {
-    'form': form,
-    'title': 'Вход',
-    'hint': 'Войдите по email и паролю.',
-    'show_forgot_password': True,
-})
+        'form': form,
+        'title': 'Вход',
+        'hint': 'Войдите по email и паролю.',
+        'show_forgot_password': True,
+    })
 
 
 def logout_view(request):
