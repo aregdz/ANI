@@ -1,0 +1,152 @@
+{% extends 'stories/base.html' %}
+
+{% block content %}
+<section class="panel">
+  <h1>{{ title }}</h1>
+
+  <p class="hint">
+    Координаты можно взять с карты: широта и долгота точки, где произошла история.
+  </p>
+
+  <!-- Условия публикации -->
+  <div style="margin:15px 0;">
+    <a href="#" id="tariffBtn"
+       style="color:#8b6b4c; text-decoration:none; font-weight:600; border-bottom:1px dashed #8b6b4c;">
+      ℹ Условия публикации
+    </a>
+  </div>
+
+  <form method="post" enctype="multipart/form-data" class="form grid-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button class="btn primary" type="submit">
+      Сохранить
+    </button>
+  </form>
+</section>
+
+<!-- Модальное окно -->
+<div id="tariffModal" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+z-index:9999;
+overflow-y:auto;
+padding:20px 0;
+box-sizing:border-box;
+">
+
+  <div style="
+  background:#fff;
+  width:90%;
+  max-width:560px;
+  max-height:85vh;
+  overflow-y:auto;
+  margin:3vh auto;
+  padding:22px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+  position:relative;
+  line-height:1.5;
+  box-sizing:border-box;
+  ">
+
+    <span id="closeTariff"
+          style="
+          position:absolute;
+          top:8px;
+          right:16px;
+          cursor:pointer;
+          font-size:30px;
+          color:#777;
+          line-height:1;
+          ">&times;</span>
+
+    <h2 style="margin:0 35px 12px 0;color:#6d4c41;font-size:24px;">
+      Условия публикации историй
+    </h2>
+
+    <p style="
+    background:#f5f0e8;
+    padding:10px;
+    border-left:4px solid #8b6b4c;
+    border-radius:6px;
+    margin:0 0 12px 0;
+    ">
+      🎁 <strong>Первая история каждого пользователя публикуется бесплатно.</strong>
+    </p>
+
+    <h3 style="color:#6d4c41;margin:12px 0 8px 0;">
+      Стоимость публикации
+    </h3>
+
+    <ul style="margin:0 0 12px 0;padding-left:20px;">
+      <li>📝 Текстовая история — <strong>300 ₽</strong>.</li>
+      <li>📷 История с фото, видео или аудио — <strong>500 ₽</strong>.</li>
+    </ul>
+
+    <h3 style="color:#6d4c41;margin:12px 0 8px 0;">
+      Как происходит публикация?
+    </h3>
+
+    <ol style="margin:0 0 12px 0;padding-left:20px;">
+      <li>Заполните форму и отправьте историю.</li>
+      <li>Если это первая публикация — она будет обработана бесплатно.</li>
+      <li>Для последующих публикаций выполните оплату по тарифу.</li>
+      <li>
+        Отправьте чек об оплате на почту:<br>
+        <strong>areg.dzharayan@bk.ru</strong>
+      </li>
+      <li>После проверки оплаты и модерации история будет опубликована.</li>
+    </ol>
+
+    <p style="
+    margin:12px 0 0 0;
+    padding:10px;
+    background:#faf7f2;
+    border-radius:6px;
+    font-size:14px;
+    color:#666;
+    ">
+      Администрация платформы оставляет за собой право отказать в публикации материалов,
+      не соответствующих тематике проекта или требованиям законодательства Российской Федерации.
+    </p>
+
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const tariffBtn = document.getElementById("tariffBtn");
+    const tariffModal = document.getElementById("tariffModal");
+    const closeTariff = document.getElementById("closeTariff");
+
+    tariffBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        tariffModal.style.display = "block";
+    });
+
+    closeTariff.addEventListener("click", function () {
+        tariffModal.style.display = "none";
+    });
+
+    window.addEventListener("click", function (e) {
+        if (e.target === tariffModal) {
+            tariffModal.style.display = "none";
+        }
+    });
+
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+            tariffModal.style.display = "none";
+        }
+    });
+});
+</script>
+
+{% endblock %}
