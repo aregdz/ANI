@@ -1,0 +1,12 @@
+venv/
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+db.sqlite3
+media/
+.env
+staticfiles/
+*.rar
+*.docx
+.restart-app
