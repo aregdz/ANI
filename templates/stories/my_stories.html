@@ -1,0 +1,7 @@
+{% extends 'stories/base.html' %}
+{% block content %}
+<section class="panel">
+  <div class="row-between"><h1>Мои истории</h1><a class="btn primary" href="{% url 'story_create' %}">Добавить историю</a></div>
+  <div class="cards">{% for story in stories %}<article class="card"><h3>{{ story.fio }}</h3><p>{{ story.story_date }} · {{ story.get_status_display }}</p><p>{{ story.text|truncatechars:160 }}</p><a href="{% url 'story_detail' story.id %}">Открыть</a></article>{% empty %}<p>Историй пока нет.</p>{% endfor %}</div>
+</section>
+{% endblock %}
