@@ -1,0 +1,178 @@
+{% extends 'stories/base.html' %}
+{% load l10n %}
+
+{% block content %}
+
+<section class="hero">
+  <h1>Карта народных историй</h1>
+
+  <form class="filters" method="get">
+    <label>
+      Дата от
+      <input type="date" name="date_from" value="{{ date_from }}">
+    </label>
+
+    <label>
+      Дата до
+      <input type="date" name="date_to" value="{{ date_to }}">
+    </label>
+
+    <button type="submit">
+      Показать
+    </button>
+
+    <a class="btn" href="{% url 'home' %}">
+      Сбросить
+    </a>
+  </form>
+</section>
+
+<div id="map" aria-label="Интерактивная карта мира с народными историями"></div>
+
+<section class="panel stories-list-panel">
+  <h2>Народные истории</h2>
+
+  <div class="stories-list">
+
+    {% for story in stories %}
+      <article class="story-list-card">
+
+        {% with story.media_files.first as media %}
+          {% if media.media_type == 'photo' %}
+            <img src="{{ media.file.url }}" alt="Фото истории">
+          {% endif %}
+        {% endwith %}
+
+        <div>
+          <h3>{{ story.fio }}</h3>
+
+          <p class="story-meta">
+            {{ story.story_date }}
+            ·
+            {{ story.latitude }},
+            {{ story.longitude }}
+          </p>
+
+          <p>
+            {{ story.text|truncatechars:220 }}
+          </p>
+
+          <a class="btn primary" href="{% url 'story_detail' story.id %}">
+            Читать историю
+          </a>
+        </div>
+
+      </article>
+
+    {% empty %}
+      <p class="hint">
+        Историй по выбранным фильтрам пока нет.
+      </p>
+    {% endfor %}
+
+  </div>
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+  ymaps.ready(initMap);
+
+  function initMap() {
+
+    const map = new ymaps.Map('map', {
+      center: [25, 20],
+      zoom: 2,
+      controls: [
+        'zoomControl',
+        'fullscreenControl',
+        'typeSelector'
+      ]
+    });
+
+    const stories = [
+      {% for story in stories %}
+      {
+        id: {{ story.id }},
+        fio: "{{ story.fio|escapejs }}",
+        date: "{{ story.story_date|date:'d.m.Y' }}",
+        lat: {{ story.latitude|unlocalize }},
+        lng: {{ story.longitude|unlocalize }},
+        url: "{% url 'story_detail' story.id %}"
+      }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ];
+
+    const clusterer = new ymaps.Clusterer({
+      preset: 'islands#invertedDarkOrangeClusterIcons',
+      groupByCoordinates: false,
+      clusterDisableClickZoom: false,
+      clusterOpenBalloonOnClick: true,
+      clusterBalloonContentLayout: 'cluster#balloonCarousel',
+      clusterBalloonPanelMaxMapArea: 0,
+      clusterBalloonPagerSize: 5
+    });
+
+    const placemarks = [];
+
+    stories.forEach((story) => {
+
+      const lat = Number(story.lat);
+      const lng = Number(story.lng);
+
+      if (
+        Number.isFinite(lat)
+        &&
+        Number.isFinite(lng)
+      ) {
+
+        const placemark = new ymaps.Placemark(
+          [lat, lng],
+
+          {
+            balloonContentHeader: story.fio,
+
+            balloonContentBody: `
+              <small>${story.date}</small>
+              <br><br>
+
+              <a href="${story.url}">
+                Открыть историю
+              </a>
+            `,
+
+            balloonContentFooter: 'АНИ',
+
+            hintContent: story.fio
+          },
+
+          {
+            preset: 'islands#darkOrangeDotIcon'
+          }
+        );
+
+        placemarks.push(placemark);
+      }
+    });
+
+    clusterer.add(placemarks);
+
+    map.geoObjects.add(clusterer);
+
+    if (placemarks.length > 0) {
+
+      map.setBounds(
+        clusterer.getBounds(),
+        {
+          checkZoomRange: true,
+          zoomMargin: 40
+        }
+      );
+    }
+  }
+</script>
+
+{% endblock %}
