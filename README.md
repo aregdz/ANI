@@ -281,3 +281,6 @@ YANDEX_MAPS_API_KEY=
 python manage.py migrate
 python manage.py collectstatic
 gunicorn ani_album.wsgi
+```
+
+- [API и маршруты проекта](API.md)
