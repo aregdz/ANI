@@ -284,3 +284,4 @@ gunicorn ani_album.wsgi
 ```
 
 - [API и маршруты проекта](API.md)
+- [GitHub Wiki проекта](https://github.com/aregdz/ANI/wiki)
