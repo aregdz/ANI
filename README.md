@@ -259,4 +259,6 @@ coverage report -m --omit="stories/tests.py,stories/migrations/*"
 Всего реализовано 36 автоматизированных тестов. Общее покрытие backend-части составляет 91%.
 
 
+### ссылку на полную документациюhttps://github.com/aregdz/ANI/blob/main/%D0%92%D0%9A%D0%A0_%D0%B8%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9.docx
+
 
