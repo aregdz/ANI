@@ -261,4 +261,23 @@ coverage report -m --omit="stories/tests.py,stories/migrations/*"
 ---
 ### ссылку на полную документациюhttps://github.com/aregdz/ANI/blob/main/%D0%92%D0%9A%D0%A0_%D0%B8%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9.docx
 
+## Развертывание
 
+Для развертывания проекта на сервере необходимо:
+
+1. Загрузить исходный код проекта на сервер.
+2. Установить зависимости из `requirements.txt`.
+3. Настроить переменные окружения:
+
+```env
+DJANGO_SECRET_KEY=
+DJANGO_ALLOWED_HOSTS=
+EMAIL_HOST_USER=
+EMAIL_HOST_PASSWORD=
+YANDEX_MAPS_API_KEY=
+Выполнить миграции базы данных.
+Собрать статические файлы.
+Запустить приложение через Gunicorn.
+python manage.py migrate
+python manage.py collectstatic
+gunicorn ani_album.wsgi
