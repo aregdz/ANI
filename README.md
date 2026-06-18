@@ -221,3 +221,42 @@ Backend выполняет следующие задачи: принимает H
 
 
 *Рисунок — Диаграмма последовательности отображения опубликованных историй на карте*
+
+## Стек технологий
+
+- Python 3.11
+- Django 5.2
+- Django ORM
+- HTML, CSS, JavaScript
+- Django Templates
+- SQLite / PostgreSQL
+- Yandex Maps API
+- SMTP для подтверждения email
+- WhiteNoise для статических файлов
+- Gunicorn для запуска на сервере
+- Git и GitHub
+- Coverage для анализа покрытия тестами
+
+---
+
+## Установка и запуск
+
+```bash
+git clone https://github.com/aregdz/ANI.git
+cd ANI
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+
+##Запуск тестов
+python manage.py test stories
+Для проверки покрытия кода тестами:
+coverage run --source=stories manage.py test stories
+coverage report -m --omit="stories/tests.py,stories/migrations/*"
+Всего реализовано 36 автоматизированных тестов. Общее покрытие backend-части составляет 91%.
+
+
+
