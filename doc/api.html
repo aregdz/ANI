@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>API документация</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>REST API проекта</h1>
+
+<p>Все запросы выполняются по префиксу <b>/api/</b> и возвращают JSON.</p>
+
+---
+
+<h2>🔐 Auth</h2>
+
+<pre>
+POST /api/auth/register/
+POST /api/auth/login/
+GET  /api/auth/verify-email/{uid}/{token}/
+</pre>
+
+<pre>
+Пример ответа:
+{
+  "access_token": "jwt_token",
+  "refresh_token": "refresh_token"
+}
+</pre>
+
+---
+
+<h2>👤 Users</h2>
+
+<pre>
+GET    /api/users/me/
+GET    /api/users/{id}/
+DELETE /api/users/{id}/
+</pre>
+
+---
+
+<h2>📍 Stories</h2>
+
+<pre>
+GET    /api/stories/
+POST   /api/stories/
+GET    /api/stories/{id}/
+DELETE /api/stories/{id}/
+GET    /api/stories/my/
+</pre>
+
+---
+
+<h2>💬 Reviews</h2>
+
+<pre>
+POST   /api/stories/{id}/reviews/
+GET    /api/stories/{id}/reviews/
+DELETE /api/reviews/{id}/
+</pre>
+
+---
+
+<h2>🛠 Admin</h2>
+
+<pre>
+POST /api/admin/stories/{id}/publish/
+POST /api/admin/stories/{id}/reject/
+</pre>
+
+</body>
+</html>
