@@ -286,50 +286,92 @@ Backend выполняет следующие задачи: принимает H
 - Virtualenv (изоляция окружения)
 
 ---
+## 🚀 Развертывание проекта
 
-## Установка и запуск
+Данная инструкция описывает процесс развертывания веб-приложения «А.Н.И — Живая Карта Истории» на сервере.
+
+---
+
+### 1. Подготовка сервера
+
+Перед началом необходимо установить зависимости на сервере:
 
 ```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install python3 python3-pip python3-venv git nginx -y
+
+---
+2. Клонирование проекта
 git clone https://github.com/aregdz/ANI.git
 cd ANI
-python -m venv venv
-venv\Scripts\activate
+
+3. Создание виртуального окружения
+python3 -m venv venv
+source venv/bin/activate
+
+4. Установка зависимостей
 pip install -r requirements.txt
+
+5. Настройка переменных окружения
+
+Создайте файл .env в корне проекта:
+DJANGO_SECRET_KEY=your_secret_key
+DJANGO_DEBUG=False
+DJANGO_ALLOWED_HOSTS=your_domain_or_ip
+
+EMAIL_HOST_USER=your_email
+EMAIL_HOST_PASSWORD=your_email_password
+
+YANDEX_MAPS_API_KEY=your_api_key
+6. Применение миграций базы данных
 python manage.py migrate
-python manage.py runserver
+7. Сбор статических файлов
+python manage.py collectstatic --noinput
+8. Проверка работы сервера Django
+python manage.py runserver 0.0.0.0:8000
+9. Настройка Gunicorn
+pip install gunicorn
+gunicorn ani_album.wsgi:application --bind 0.0.0.0:8000
+10. Настройка Nginx (reverse proxy)
+
+Создайте конфигурацию:
+
+sudo nano /etc/nginx/sites-available/ani
+
+Пример конфигурации:
+
+server {
+    listen 80;
+    server_name your_domain_or_ip;
+
+    location /static/ {
+        alias /home/user/ANI/static/;
+    }
+
+    location /media/ {
+        alias /home/user/ANI/media/;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+Активировать конфигурацию:
+
+sudo ln -s /etc/nginx/sites-available/ani /etc/nginx/sites-enabled
+sudo systemctl restart nginx
+11. Завершение
+
+После выполнения всех шагов проект будет доступен по адресу сервера или домену.
 
 
-##Запуск тестов
-python manage.py test stories
-Для проверки покрытия кода тестами:
-coverage run --source=stories manage.py test stories
-coverage report -m --omit="stories/tests.py,stories/migrations/*"
-Всего реализовано 36 автоматизированных тестов. Общее покрытие backend-части составляет 91%.
-```
----
+--- 
 ### ссылку на полную документациюhttps://github.com/aregdz/ANI/blob/main/%D0%92%D0%9A%D0%A0_%D0%B8%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9.docx
 
-## Развертывание
 
-Для развертывания проекта на сервере необходимо:
-
-1. Загрузить исходный код проекта на сервер.
-2. Установить зависимости из `requirements.txt`.
-3. Настроить переменные окружения:
-
-```env
-DJANGO_SECRET_KEY=
-DJANGO_ALLOWED_HOSTS=
-EMAIL_HOST_USER=
-EMAIL_HOST_PASSWORD=
-YANDEX_MAPS_API_KEY=
-Выполнить миграции базы данных.
-Собрать статические файлы.
-Запустить приложение через Gunicorn.
-python manage.py migrate
-python manage.py collectstatic
-gunicorn ani_album.wsgi
-```
 ## 📚 Ссылки на документацию
 
 - [API и маршруты проекта](API.md)
