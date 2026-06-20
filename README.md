@@ -490,55 +490,62 @@ python manage.py migrate
 
 ### Рисунок 7.5 – Окно авторизации пользователя
 
-<!-- вставь изображение сюда -->
+<img width="593" height="594" alt="image" src="https://github.com/user-attachments/assets/de674148-28dc-4eac-8607-ac33e98916f2" />
+
 
 ---
 
 ### Рисунок 7.6 – Вход в систему
 
-<!-- вставь изображение сюда -->
+<img width="812" height="718" alt="image" src="https://github.com/user-attachments/assets/acdca742-d6b2-494f-b6a8-9cf86a09c828" />
+
 
 ---
 
 ### Рисунок 7.7 – Просмотр собственных историй
-
-<!-- вставь изображение сюда -->
+<img width="922" height="410" alt="image" src="https://github.com/user-attachments/assets/719a1596-f0bc-41f6-802b-ac017c514ea4" />
 
 ---
 
 ### Рисунок 7.8 – Оставление отзыва
 
-<!-- вставь изображение сюда -->
+<img width="634" height="333" alt="image" src="https://github.com/user-attachments/assets/b2a94ead-677b-4447-ac43-33138bf8ffc6" />
+
 
 ---
 
 ### Рисунок 7.9 – Панель администратора
 
-<!-- вставь изображение сюда -->
+<img width="635" height="398" alt="image" src="https://github.com/user-attachments/assets/0b1b2e23-85f7-495d-8d59-91e9edc1cffb" />
+
 
 ---
 
 ### Рисунок 7.10 – Просмотр пользователей и действия с ними
 
-<!-- вставь изображение сюда -->
+<img width="668" height="413" alt="image" src="https://github.com/user-attachments/assets/78fe613c-6a45-4802-9ee1-1fdf2ce87a1a" />
+
 
 ---
 
 ### Рисунок 7.11 – Просмотр истории о конкретном пользователе
 
-<!-- вставь изображение сюда -->
+<img width="791" height="348" alt="image" src="https://github.com/user-attachments/assets/07852798-318a-478d-91bc-2163f570a0a5" />
+
 
 ---
 
 ### Рисунок 7.12 – Просмотр отзывов к историям и действия с ними
 
-<!-- вставь изображение сюда -->
+<img width="816" height="293" alt="image" src="https://github.com/user-attachments/assets/0959fdfe-f917-49ea-9cbb-9b5dfe0b3475" />
+
 
 ---
 
 ### Рисунок 7.13 – Редактирование истории пользователя по запросу
 
-<!-- вставь изображение сюда -->
+<img width="781" height="456" alt="image" src="https://github.com/user-attachments/assets/ae0d0b05-4402-4afa-95e9-202d30ef326a" />
+
 
 --- 
 ### ссылку на полную документациюhttps://github.com/aregdz/ANI/blob/main/%D0%92%D0%9A%D0%A0_%D0%B8%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9.docx
